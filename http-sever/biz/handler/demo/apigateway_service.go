@@ -9,6 +9,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	demo "github.com/sherry-500/apigateway/biz/model/demo"
+	"github.com/sherry-500/apigateway/biz/client"
 )
 
 // Gateway .
@@ -21,8 +22,15 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Println("gateway", c.Param("svcName"), c.Param("methodName"))
+
 	resp := new(demo.ApiResp)
+
+	svcName := c.Param("svcName")
+	methodName := c.Param("methodName")
+	client.InitJsonGenericClient(svcName, "")
+	kitexClient := client.Clients[svcName]
+
+	kitexClient.GenericCall(ctx, methodName, req.Data)
 
 	c.JSON(consts.StatusOK, resp)
 }
