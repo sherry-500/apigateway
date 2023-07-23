@@ -7,7 +7,7 @@ import (
 	"io"
 	"os"
 
-	"golang.org/x/tools/go/analysis/passes/nilfunc"
+	// "golang.org/x/tools/go/analysis/passes/nilfunc"
 )
 
 var IDLMap = make(map[string]string)
@@ -60,4 +60,18 @@ func InitMap() {
        data := bytes.Split(line, []byte("="))
        IDLMap[string(data[0])] = string(data[1])
     }
+}
+
+func WriteBack() {
+    idlFile, err := os.OpenFile("./idlPath.txt", os.O_RDWR|os.O_CREATE, 777)
+	if err != nil {
+		fmt.Println(err)
+	}
+    idlFile.Truncate(0)
+    idlFile.Seek(0, 0)
+    writer := bufio.NewWriter(idlFile)
+    for svcName, idlPath := range IDLMap {
+        writer.WriteString(svcName + "=" + idlPath)
+    }
+    writer.Flush()
 }
