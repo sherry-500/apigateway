@@ -6,21 +6,41 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"golang.org/x/tools/go/analysis/passes/nilfunc"
 )
 
 var IDLMap = make(map[string]string)
 
 func AddIdl(svcName string, idlPath string) bool {
-	
-
+    IDLMap[string(svcName)] = string(idlPath)
 	return true
 }
 
-func DelIdl(svcName string)
+func DelIdl(svcName string) bool {
+    _, ok := IDLMap[svcName]
+    if !ok  {
+        return false
+    }
+    delete(IDLMap, svcName)
+    return true
+}
 //update both the IDLMap and idlPath.txt
-func UpdateIdl(svcName string, idlPath string)
+func UpdateIdl(svcName string, idlPath string) bool {
+    _, ok := IDLMap[svcName]
+    if !ok  {
+        return false
+    }
+    delete(IDLMap, svcName)
+    IDLMap[string(svcName)] = string(idlPath)
 
-func GetIdl(svcName string) string
+    return true
+}
+
+func GetIdl(svcName string) string {
+    path, _ := IDLMap[svcName]
+    return path
+}
 
 func InitMap() {
 	idlFile, err := os.OpenFile("./idlPath.txt", os.O_RDWR|os.O_CREATE, 777)
