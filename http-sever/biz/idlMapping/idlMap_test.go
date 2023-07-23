@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"strings"
 	"testing"
+	"os"
 
 	"github.com/stretchr/testify/require"
 )
@@ -28,6 +29,7 @@ func randomString(n int) string {
 
 func TestMain(m *testing.M) {
 	InitMap()
+	os.Exit(m.Run())
 }
 
 func TestAddIdl(t *testing.T) {
