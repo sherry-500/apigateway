@@ -10,13 +10,17 @@ import (
 
 var IDLMap = make(map[string]string)
 
-func AddIdl(svcName string) bool {
+func AddIdl(svcName string, idlPath string) bool {
 	
 
 	return true
 }
-func DelIdl()
-func UpdateIdl()
+
+func DelIdl(svcName string)
+//update both the IDLMap and idlPath.txt
+func UpdateIdl(svcName string, idlPath string)
+
+func GetIdl(svcName string) string
 
 func InitMap() {
 	idlFile, err := os.OpenFile("./idlPath.txt", os.O_RDWR|os.O_CREATE, 777)

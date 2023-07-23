@@ -5,11 +5,13 @@ package demo
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	demo "github.com/sherry-500/apigateway/biz/model/demo"
 	"github.com/sherry-500/apigateway/biz/client"
+	"github.com/sherry-500/apigateway/biz/idlMapping"
+	demo "github.com/sherry-500/apigateway/biz/model/demo"
 )
 
 // Gateway .
@@ -27,7 +29,12 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 
 	svcName := c.Param("svcName")
 	methodName := c.Param("methodName")
-	client.InitJsonGenericClient(svcName, "")
+	if idlPath, ok := idlMapping.IDLMap[svcName]; ok{
+		client.InitJsonGenericClient(svcName, idlPath)
+	}else{
+		log.Fatal("there is no service")
+	}
+
 	kitexClient := client.Clients[svcName]
 
 	kitexClient.GenericCall(ctx, methodName, req.Data)
