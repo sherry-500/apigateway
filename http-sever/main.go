@@ -3,13 +3,15 @@
 package main
 
 import (
-	//"github.com/sherry-500/apigateway/biz/idlMapping"
+	idlMapping "github.com/sherry-500/apigateway/biz/idlMapping"
 	"github.com/cloudwego/hertz/pkg/app/server"
+	// "os"
+	// "fmt"
 )
-
 func main() {
-	h := server.Default()
+	idlMapping.InitMap()
 	
+	h := server.Default()
 	register(h)
 	h.Spin()
 }
