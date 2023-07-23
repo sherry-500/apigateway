@@ -29,5 +29,5 @@ service ApigatewayService {
     IdlResp CreateIdl(1: IdlMap req)(api.post = '/idl-manage/create')
     IdlResp DeleteIdl(1: Service svc)(api.post = '/idl-manage/delete')
     IdlResp UpdateIdl(1: IdlMap req)(api.post = '/idl-manage/update')
-    IdlMap ResearchIdl(1: Service svc)(api.post = '/idl-manage/research')
+    IdlMap SearchIdl(1: Service svc)(api.post = '/idl-manage/search')
 }

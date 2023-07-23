@@ -41,7 +41,7 @@ func _deleteidlMw() []app.HandlerFunc {
 	return nil
 }
 
-func _researchidlMw() []app.HandlerFunc {
+func _SearchIdlMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }

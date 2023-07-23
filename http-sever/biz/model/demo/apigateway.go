@@ -835,7 +835,7 @@ type ApigatewayService interface {
 
 	UpdateIdl(ctx context.Context, req *IdlMap) (r *IdlResp, err error)
 
-	ResearchIdl(ctx context.Context, svc *Service) (r *IdlMap, err error)
+	SearchIdl(ctx context.Context, svc *Service) (r *IdlMap, err error)
 }
 
 type ApigatewayServiceClient struct {
@@ -900,11 +900,11 @@ func (p *ApigatewayServiceClient) UpdateIdl(ctx context.Context, req *IdlMap) (r
 	}
 	return _result.GetSuccess(), nil
 }
-func (p *ApigatewayServiceClient) ResearchIdl(ctx context.Context, svc *Service) (r *IdlMap, err error) {
-	var _args ApigatewayServiceResearchIdlArgs
+func (p *ApigatewayServiceClient) SearchIdl(ctx context.Context, svc *Service) (r *IdlMap, err error) {
+	var _args ApigatewayServiceSearchIdlArgs
 	_args.Svc = svc
-	var _result ApigatewayServiceResearchIdlResult
-	if err = p.Client_().Call(ctx, "ResearchIdl", &_args, &_result); err != nil {
+	var _result ApigatewayServiceSearchIdlResult
+	if err = p.Client_().Call(ctx, "SearchIdl", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
@@ -934,7 +934,7 @@ func NewApigatewayServiceProcessor(handler ApigatewayService) *ApigatewayService
 	self.AddToProcessorMap("CreateIdl", &apigatewayServiceProcessorCreateIdl{handler: handler})
 	self.AddToProcessorMap("DeleteIdl", &apigatewayServiceProcessorDeleteIdl{handler: handler})
 	self.AddToProcessorMap("UpdateIdl", &apigatewayServiceProcessorUpdateIdl{handler: handler})
-	self.AddToProcessorMap("ResearchIdl", &apigatewayServiceProcessorResearchIdl{handler: handler})
+	self.AddToProcessorMap("SearchIdl", &apigatewayServiceProcessorSearchIdl{handler: handler})
 	return self
 }
 func (p *ApigatewayServiceProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -1147,16 +1147,16 @@ func (p *apigatewayServiceProcessorUpdateIdl) Process(ctx context.Context, seqId
 	return true, err
 }
 
-type apigatewayServiceProcessorResearchIdl struct {
+type apigatewayServiceProcessorSearchIdl struct {
 	handler ApigatewayService
 }
 
-func (p *apigatewayServiceProcessorResearchIdl) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-	args := ApigatewayServiceResearchIdlArgs{}
+func (p *apigatewayServiceProcessorSearchIdl) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := ApigatewayServiceSearchIdlArgs{}
 	if err = args.Read(iprot); err != nil {
 		iprot.ReadMessageEnd()
 		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-		oprot.WriteMessageBegin("ResearchIdl", thrift.EXCEPTION, seqId)
+		oprot.WriteMessageBegin("SearchIdl", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush(ctx)
@@ -1165,11 +1165,11 @@ func (p *apigatewayServiceProcessorResearchIdl) Process(ctx context.Context, seq
 
 	iprot.ReadMessageEnd()
 	var err2 error
-	result := ApigatewayServiceResearchIdlResult{}
+	result := ApigatewayServiceSearchIdlResult{}
 	var retval *IdlMap
-	if retval, err2 = p.handler.ResearchIdl(ctx, args.Svc); err2 != nil {
-		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing ResearchIdl: "+err2.Error())
-		oprot.WriteMessageBegin("ResearchIdl", thrift.EXCEPTION, seqId)
+	if retval, err2 = p.handler.SearchIdl(ctx, args.Svc); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing SearchIdl: "+err2.Error())
+		oprot.WriteMessageBegin("SearchIdl", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush(ctx)
@@ -1177,7 +1177,7 @@ func (p *apigatewayServiceProcessorResearchIdl) Process(ctx context.Context, seq
 	} else {
 		result.Success = retval
 	}
-	if err2 = oprot.WriteMessageBegin("ResearchIdl", thrift.REPLY, seqId); err2 != nil {
+	if err2 = oprot.WriteMessageBegin("SearchIdl", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -2363,32 +2363,32 @@ func (p *ApigatewayServiceUpdateIdlResult) String() string {
 	return fmt.Sprintf("ApigatewayServiceUpdateIdlResult(%+v)", *p)
 }
 
-type ApigatewayServiceResearchIdlArgs struct {
+type ApigatewayServiceSearchIdlArgs struct {
 	Svc *Service `thrift:"svc,1"`
 }
 
-func NewApigatewayServiceResearchIdlArgs() *ApigatewayServiceResearchIdlArgs {
-	return &ApigatewayServiceResearchIdlArgs{}
+func NewApigatewayServiceSearchIdlArgs() *ApigatewayServiceSearchIdlArgs {
+	return &ApigatewayServiceSearchIdlArgs{}
 }
 
-var ApigatewayServiceResearchIdlArgs_Svc_DEFAULT *Service
+var ApigatewayServiceSearchIdlArgs_Svc_DEFAULT *Service
 
-func (p *ApigatewayServiceResearchIdlArgs) GetSvc() (v *Service) {
+func (p *ApigatewayServiceSearchIdlArgs) GetSvc() (v *Service) {
 	if !p.IsSetSvc() {
-		return ApigatewayServiceResearchIdlArgs_Svc_DEFAULT
+		return ApigatewayServiceSearchIdlArgs_Svc_DEFAULT
 	}
 	return p.Svc
 }
 
-var fieldIDToName_ApigatewayServiceResearchIdlArgs = map[int16]string{
+var fieldIDToName_ApigatewayServiceSearchIdlArgs = map[int16]string{
 	1: "svc",
 }
 
-func (p *ApigatewayServiceResearchIdlArgs) IsSetSvc() bool {
+func (p *ApigatewayServiceSearchIdlArgs) IsSetSvc() bool {
 	return p.Svc != nil
 }
 
-func (p *ApigatewayServiceResearchIdlArgs) Read(iprot thrift.TProtocol) (err error) {
+func (p *ApigatewayServiceSearchIdlArgs) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -2437,7 +2437,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApigatewayServiceResearchIdlArgs[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApigatewayServiceSearchIdlArgs[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -2447,7 +2447,7 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *ApigatewayServiceResearchIdlArgs) ReadField1(iprot thrift.TProtocol) error {
+func (p *ApigatewayServiceSearchIdlArgs) ReadField1(iprot thrift.TProtocol) error {
 	p.Svc = NewService()
 	if err := p.Svc.Read(iprot); err != nil {
 		return err
@@ -2455,9 +2455,9 @@ func (p *ApigatewayServiceResearchIdlArgs) ReadField1(iprot thrift.TProtocol) er
 	return nil
 }
 
-func (p *ApigatewayServiceResearchIdlArgs) Write(oprot thrift.TProtocol) (err error) {
+func (p *ApigatewayServiceSearchIdlArgs) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("ResearchIdl_args"); err != nil {
+	if err = oprot.WriteStructBegin("SearchIdl_args"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -2484,7 +2484,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *ApigatewayServiceResearchIdlArgs) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *ApigatewayServiceSearchIdlArgs) writeField1(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("svc", thrift.STRUCT, 1); err != nil {
 		goto WriteFieldBeginError
 	}
@@ -2501,39 +2501,39 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *ApigatewayServiceResearchIdlArgs) String() string {
+func (p *ApigatewayServiceSearchIdlArgs) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("ApigatewayServiceResearchIdlArgs(%+v)", *p)
+	return fmt.Sprintf("ApigatewayServiceSearchIdlArgs(%+v)", *p)
 }
 
-type ApigatewayServiceResearchIdlResult struct {
+type ApigatewayServiceSearchIdlResult struct {
 	Success *IdlMap `thrift:"success,0,optional"`
 }
 
-func NewApigatewayServiceResearchIdlResult() *ApigatewayServiceResearchIdlResult {
-	return &ApigatewayServiceResearchIdlResult{}
+func NewApigatewayServiceSearchIdlResult() *ApigatewayServiceSearchIdlResult {
+	return &ApigatewayServiceSearchIdlResult{}
 }
 
-var ApigatewayServiceResearchIdlResult_Success_DEFAULT *IdlMap
+var ApigatewayServiceSearchIdlResult_Success_DEFAULT *IdlMap
 
-func (p *ApigatewayServiceResearchIdlResult) GetSuccess() (v *IdlMap) {
+func (p *ApigatewayServiceSearchIdlResult) GetSuccess() (v *IdlMap) {
 	if !p.IsSetSuccess() {
-		return ApigatewayServiceResearchIdlResult_Success_DEFAULT
+		return ApigatewayServiceSearchIdlResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-var fieldIDToName_ApigatewayServiceResearchIdlResult = map[int16]string{
+var fieldIDToName_ApigatewayServiceSearchIdlResult = map[int16]string{
 	0: "success",
 }
 
-func (p *ApigatewayServiceResearchIdlResult) IsSetSuccess() bool {
+func (p *ApigatewayServiceSearchIdlResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *ApigatewayServiceResearchIdlResult) Read(iprot thrift.TProtocol) (err error) {
+func (p *ApigatewayServiceSearchIdlResult) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
@@ -2582,7 +2582,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApigatewayServiceResearchIdlResult[fieldId]), err)
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_ApigatewayServiceSearchIdlResult[fieldId]), err)
 SkipFieldError:
 	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 
@@ -2592,7 +2592,7 @@ ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *ApigatewayServiceResearchIdlResult) ReadField0(iprot thrift.TProtocol) error {
+func (p *ApigatewayServiceSearchIdlResult) ReadField0(iprot thrift.TProtocol) error {
 	p.Success = NewIdlMap()
 	if err := p.Success.Read(iprot); err != nil {
 		return err
@@ -2600,9 +2600,9 @@ func (p *ApigatewayServiceResearchIdlResult) ReadField0(iprot thrift.TProtocol) 
 	return nil
 }
 
-func (p *ApigatewayServiceResearchIdlResult) Write(oprot thrift.TProtocol) (err error) {
+func (p *ApigatewayServiceSearchIdlResult) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
-	if err = oprot.WriteStructBegin("ResearchIdl_result"); err != nil {
+	if err = oprot.WriteStructBegin("SearchIdl_result"); err != nil {
 		goto WriteStructBeginError
 	}
 	if p != nil {
@@ -2629,7 +2629,7 @@ WriteStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
 }
 
-func (p *ApigatewayServiceResearchIdlResult) writeField0(oprot thrift.TProtocol) (err error) {
+func (p *ApigatewayServiceSearchIdlResult) writeField0(oprot thrift.TProtocol) (err error) {
 	if p.IsSetSuccess() {
 		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
 			goto WriteFieldBeginError
@@ -2648,9 +2648,9 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
 }
 
-func (p *ApigatewayServiceResearchIdlResult) String() string {
+func (p *ApigatewayServiceSearchIdlResult) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("ApigatewayServiceResearchIdlResult(%+v)", *p)
+	return fmt.Sprintf("ApigatewayServiceSearchIdlResult(%+v)", *p)
 }

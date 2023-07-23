@@ -76,9 +76,9 @@ func UpdateIdl(ctx context.Context, c *app.RequestContext) {
 	c.JSON(consts.StatusOK, resp)
 }
 
-// ResearchIdl .
-// @router /idl-manage/research [POST]
-func ResearchIdl(ctx context.Context, c *app.RequestContext) {
+// SearchIdl .
+// @router /idl-manage/search [POST]
+func SearchIdl(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req demo.Service
 	err = c.BindAndValidate(&req)

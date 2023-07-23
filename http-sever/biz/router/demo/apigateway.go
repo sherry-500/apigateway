@@ -28,7 +28,7 @@ func Register(r *server.Hertz) {
 		_idl_manage := root.Group("/idl-manage", _idl_manageMw()...)
 		_idl_manage.POST("/create", append(_createidlMw(), demo.CreateIdl)...)
 		_idl_manage.POST("/delete", append(_deleteidlMw(), demo.DeleteIdl)...)
-		_idl_manage.POST("/research", append(_researchidlMw(), demo.ResearchIdl)...)
+		_idl_manage.POST("/search", append(_SearchIdlMw(), demo.SearchIdl)...)
 		_idl_manage.POST("/update", append(_updateidlMw(), demo.UpdateIdl)...)
 	}
 }
