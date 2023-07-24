@@ -11,7 +11,8 @@ import (
 func main() {
 	idlMapping.InitMap()
 	h := server.Default()
+	//idlMapping.InitMap()
 	register(h)
 	h.Spin()
-	idlMapping.WriteBack()
+	//idlMapping.WriteBack()
 }

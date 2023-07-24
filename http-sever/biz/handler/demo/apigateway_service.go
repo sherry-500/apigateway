@@ -4,6 +4,7 @@ package demo
 
 import (
 	"context"
+	//"encoding/json"
 	"fmt"
 	"log"
 
@@ -25,19 +26,25 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(demo.ApiResp)
-
 	svcName := c.Param("svcName")
 	methodName := c.Param("methodName")
+
 	if idlPath, ok := idlMapping.IDLMap[svcName]; ok{
 		client.InitJsonGenericClient(svcName, idlPath)
 	}else{
 		log.Fatal("there is no service")
 	}
 
-	kitexClient := client.Clients[svcName]
+	kitexClient, ok := client.Clients[svcName]
+	if !ok {
+		log.Fatal("no client")
+	}
 
-	kitexClient.GenericCall(ctx, methodName, req.Data)
+	//fmt.Println(req.Data)
+	resp, err := kitexClient.GenericCall(ctx, methodName, req.Data)
+	if err != nil {
+		panic("err rpc server:" + err.Error())
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }
