@@ -4,8 +4,8 @@ package demo
 
 import (
 	"context"
-	//"encoding/json"
-	"fmt"
+	"encoding/json"
+	//"fmt"
 	"log"
 
 	"github.com/cloudwego/hertz/pkg/app"
@@ -19,7 +19,8 @@ import (
 // @router /apigateway/:svcName/:methodName [POST]
 func Gateway(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req demo.ApiReq
+	//var req demo.ApiReq
+	var req interface{}
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
@@ -41,7 +42,8 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 	}
 
 	//fmt.Println(req.Data)
-	resp, err := kitexClient.GenericCall(ctx, methodName, req.Data)
+	jsonData, err := json.Marshal(req)
+	resp, err := kitexClient.GenericCall(ctx, methodName, string(jsonData))
 	if err != nil {
 		panic("err rpc server:" + err.Error())
 	}
@@ -61,8 +63,12 @@ func CreateIdl(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(demo.IdlResp)
-	fmt.Println("create")
-
+	svcName := req.SvcName
+	idlPath := req.Path
+	ok := idlMapping.AddIdl(svcName, idlPath)
+	if !ok {
+		c.JSON(consts.StatusInternalServerError, resp)
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -78,7 +84,11 @@ func DeleteIdl(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(demo.IdlResp)
-
+	svcName := req.Name
+	ok := idlMapping.DelIdl(svcName)
+	if !ok {
+		c.JSON(consts.StatusInternalServerError, resp)
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -94,7 +104,12 @@ func UpdateIdl(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(demo.IdlResp)
-
+	svcName := req.SvcName
+	idlPath := req.Path
+	ok := idlMapping.UpdateIdl(svcName, idlPath)
+	if !ok {
+		c.JSON(consts.StatusInternalServerError, resp)
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -110,6 +125,10 @@ func SearchIdl(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(demo.IdlMap)
-
+	svcName := req.Name
+	idlPath := idlMapping.GetIdl(svcName)
+	
+	resp.SvcName = svcName
+	resp.Path = idlPath
 	c.JSON(consts.StatusOK, resp)
 }
