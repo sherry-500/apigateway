@@ -6,7 +6,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"log"
+	//"log"
 
 	//"strings"
 	"fmt"
@@ -51,18 +51,21 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	client.InitJsonGenericClient(svcName, idlmap.Idl)
-
-	kitexClient, ok := client.Clients[svcName]
-	if !ok {
-		log.Fatal("no client")
+	client, err := client.InitJsonGenericClient(svcName, idlmap.Idl, idlmap.Type)
+	if err != nil {
+		c.String(consts.StatusInternalServerError, "get client failed" + err.Error())
+		return
 	}
 
 	//fmt.Println(req.Data)
 	jsonData, err := json.Marshal(req)
-	resp, err := kitexClient.GenericCall(ctx, methodName, string(jsonData))
+	resp, err := client.GenericCall(ctx, methodName, string(jsonData))
 	if err != nil {
-		panic("err rpc server:" + err.Error())
+		resp := &demo.ApiResp{
+			Success: false,
+			Message: err.Error(),
+		}
+		c.JSON(consts.StatusInternalServerError, resp)
 	}
 
 	fmt.Println(resp)
