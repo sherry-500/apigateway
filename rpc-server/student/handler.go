@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"log"
 	"fmt"
 	//"time"
 	"strings"
@@ -35,9 +34,17 @@ func (s *StudentServiceImpl) Register(ctx context.Context, student *demo.Student
 	// TODO: Your code here...
 	result := s.db.Table("students").Create(student2Model(student))
 	if result.Error != nil {
-		log.Fatal(result.Error)
+		resp = &demo.RegisterResp{
+			Message: "student register fail",
+			Success: false,
+		}
+		return
 	}
-	fmt.Println(json.Marshal(resp))
+	resp = &demo.RegisterResp{
+		Message: "student register success",
+		Success: true,
+	}
+	fmt.Println(resp.Message)
 	return
 }
 
@@ -98,70 +105,70 @@ func student2Model(student *demo.Student) *Student{
 	return stu
 }
 
-//实现GenericCall接口
-func (s *StudentServiceImpl)GenericCall(ctx context.Context, method string, request interface{}) (response interface{}, err error){
-	if method == "Register"{
-		reqStr, ok := request.(string)
-		if !ok {
-			return nil, errors.New("Invalid request type, cannot transfer it to json string")
-		}
+// //实现GenericCall接口
+// func (s *StudentServiceImpl)GenericCall(ctx context.Context, method string, request interface{}) (response interface{}, err error){
+// 	if method == "Register"{
+// 		reqStr, ok := request.(string)
+// 		if !ok {
+// 			return nil, errors.New("Invalid request type, cannot transfer it to json string")
+// 		}
 
-		fmt.Println(reqStr)
+// 		fmt.Println(reqStr)
 
-		var req demo.Student
-		err = json.Unmarshal([]byte(reqStr), &req)
-		if err != nil {
-			panic("反序列化错误")
-		}
+// 		var req demo.Student
+// 		err = json.Unmarshal([]byte(reqStr), &req)
+// 		if err != nil {
+// 			panic("反序列化错误")
+// 		}
 
-		resp, err := s.Register(ctx, &req)
-		if err != nil{
-			panic("get register response")
-		}
-		respData, err := json.Marshal(resp)
-		if err != nil {
-			panic("get respData failed")
-		}
-		respStr := string(respData)
-		fmt.Println(respStr)
+// 		resp, err := s.Register(ctx, &req)
+// 		if err != nil{
+// 			panic("get register response")
+// 		}
+// 		respData, err := json.Marshal(resp)
+// 		if err != nil {
+// 			panic("get respData failed")
+// 		}
+// 		respStr := string(respData)
+// 		fmt.Println(respStr)
 
-		return respStr, nil
-	}else{
-		fmt.Println("query!!!")
-		reqStr, ok := request.(string)
-		if !ok {
-			return nil, errors.New("Invalid request type, cannot transfer it to json string")
-		}
+// 		return respStr, nil
+// 	}else{
+// 		fmt.Println("query!!!")
+// 		reqStr, ok := request.(string)
+// 		if !ok {
+// 			return nil, errors.New("Invalid request type, cannot transfer it to json string")
+// 		}
 
-		fmt.Println(reqStr)
+// 		fmt.Println(reqStr)
 
-		var req demo.QueryReq
-		err = json.Unmarshal([]byte(reqStr), &req)
-		if err != nil {
-			panic("反序列化错误")
-		}
-		resp, err := s.Query(ctx, &req)
-		if err != nil{
-			panic("get register response")
-		}
+// 		var req demo.QueryReq
+// 		err = json.Unmarshal([]byte(reqStr), &req)
+// 		if err != nil {
+// 			panic("反序列化错误")
+// 		}
+// 		resp, err := s.Query(ctx, &req)
+// 		if err != nil{
+// 			panic("get register response")
+// 		}
 
-		respData, err := json.Marshal(resp)
-		if err != nil {
-			panic("get respData failed")
-		}
-		respStr := string(respData)
-		fmt.Println(respStr)
+// 		respData, err := json.Marshal(resp)
+// 		if err != nil {
+// 			panic("get respData failed")
+// 		}
+// 		respStr := string(respData)
+// 		fmt.Println(respStr)
 
-		return respStr, nil
-	}
+// 		return respStr, nil
+// 	}
 
-	//序列化
-	// respData, err := json.Marshal(resp)
-	// if err != nil {
-	// 	panic("get respData failed")
-	// }
-	// respStr := string(respData)
-	// fmt.Println(respStr)
+// 	//序列化
+// 	// respData, err := json.Marshal(resp)
+// 	// if err != nil {
+// 	// 	panic("get respData failed")
+// 	// }
+// 	// respStr := string(respData)
+// 	// fmt.Println(respStr)
 
-	// return respStr, nil
-}
+// 	// return respStr, nil
+// }

@@ -16,7 +16,7 @@ func main() {
 
 	// 本地文件 idl 解析
    // YOUR_IDL_PATH thrift 文件路径: e.g. ./idl/example.thrift
-   p, err := generic.NewThriftFileProvider("../../idl/teacher.thrift")
+   p, err := generic.NewThriftFileProvider("../../idl/kitex_teacher.thrift")
    if err != nil {
 	   panic(err)
    }
