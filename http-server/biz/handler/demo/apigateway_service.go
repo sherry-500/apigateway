@@ -6,6 +6,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+
 	//"log"
 
 	//"strings"
@@ -37,7 +38,7 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 	methodName := c.Param("methodName")
 
 	//find the idl path
-	idlmap, err := db.StoreInstance.GetIdlmapByName(ctx, svcName)
+	_, err = db.StoreInstance.GetIdlmapByName(ctx, svcName)
 	if err != nil {
 		resp := &demo.ApiResp{
 			Success: false,
@@ -51,7 +52,7 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	client, err := client.InitJsonGenericClient(svcName, idlmap.Idl, idlmap.Type)
+	client, err := client.GetClient(svcName)
 	if err != nil {
 		c.String(consts.StatusInternalServerError, "get client failed" + err.Error())
 		return
@@ -66,6 +67,7 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 			Message: err.Error(),
 		}
 		c.JSON(consts.StatusInternalServerError, resp)
+		return
 	}
 
 	fmt.Println(resp)
