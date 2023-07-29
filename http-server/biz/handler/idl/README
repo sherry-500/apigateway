@@ -1,0 +1,5 @@
+## 说明
+
+handler/idl中的thrift文件用于测试，由于数据库存储的idl的路径是相对于main.go的路径，而apigateway_test.go与main.go不在相同目录下，所以需要数据库存储的相对路径对于apigateway_test.go也同样存在。
+
+测试前需要运行http-server和重启rpc服务

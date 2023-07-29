@@ -38,7 +38,7 @@ func (s *StudentServiceImpl) Register(ctx context.Context, student *demo.Student
 			Message: "student register fail",
 			Success: false,
 		}
-		return
+		return resp, result.Error
 	}
 	resp = &demo.RegisterResp{
 		Message: "student register success",

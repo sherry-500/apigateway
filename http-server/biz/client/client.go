@@ -81,7 +81,6 @@ func GetClient(svcname string)(genericclient.Client, error){
 			}
 		}else{
 			idlMapCache.Store(svcname, idl)
-
 		}
 	}
 
@@ -91,5 +90,6 @@ func GetClient(svcname string)(genericclient.Client, error){
 	}
 
 	clientCache.Store(svcname, client)
+	idlMapCache.Store(svcname, idl)
 	return client, nil
 }

@@ -42,7 +42,7 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 	if err != nil {
 		resp := &demo.ApiResp{
 			Success: false,
-			Message: err.Error(),
+			Message: "get idl failed:" + err.Error(),
 		}
 		if err == sql.ErrNoRows{
 			c.JSON(consts.StatusNotFound, resp)
@@ -54,17 +54,16 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 
 	client, err := client.GetClient(svcName)
 	if err != nil {
-		c.String(consts.StatusInternalServerError, "get client failed" + err.Error())
+		c.String(consts.StatusInternalServerError, "get client failed:" + err.Error())
 		return
 	}
 
-	//fmt.Println(req.Data)
 	jsonData, err := json.Marshal(req)
 	resp, err := client.GenericCall(ctx, methodName, string(jsonData))
 	if err != nil {
 		resp := &demo.ApiResp{
 			Success: false,
-			Message: err.Error(),
+			Message: "get resp faided:" + err.Error(),
 		}
 		c.JSON(consts.StatusInternalServerError, resp)
 		return
