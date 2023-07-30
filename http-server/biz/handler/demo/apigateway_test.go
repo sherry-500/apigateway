@@ -16,6 +16,8 @@ import (
 	"github.com/sherry-500/apigateway/util"
 )
 
+// 测试前需要将idl文件夹复制到handler/demo目录下
+
 const URL = "/apigateway"
 
 func TestApigateway(t *testing.T) {
