@@ -1,11 +1,35 @@
 # cloudwego Apigateway
 
-[TOC]
+- [cloudwego Apigateway](#cloudwego-apigateway)
+  - [一、部署步骤](#一部署步骤)
+    - [1. 前置条件](#1-前置条件)
+    - [2. 开始部署](#2-开始部署)
+      - [2.1 下载源码](#21-下载源码)
+      - [2.2 数据库部署](#22-数据库部署)
+      - [2.3  启动etcd](#23--启动etcd)
+      - [2.4 启动HTTP服务器](#24-启动http服务器)
+      - [2.5 启动IDL管理平台](#25-启动idl管理平台)
+      - [2.6 启动RPC服务](#26-启动rpc服务)
+  - [二、接口说明](#二接口说明)
+    - [api网关（http-server）](#api网关http-server)
+      - [1. 服务调用](#1-服务调用)
+    - [idl管理平台（idl-manage）](#idl管理平台idl-manage)
+      - [1. 增加idl](#1-增加idl)
+      - [2. 删除idl](#2-删除idl)
+      - [3. 更新idl](#3-更新idl)
+      - [4. 根据服务名称获取idl](#4-根据服务名称获取idl)
+      - [5. 列出idl](#5-列出idl)
+  - [三、使用说明](#三使用说明)
+  - [四、实现细节](#四实现细节)
+  - [五、测试方案](#五测试方案)
+    - [1. 单元测试](#1-单元测试)
+    - [2. 性能测试](#2-性能测试)
+  - [六、优化方案](#六优化方案)
+
 
 ## 一、部署步骤
 
 ### 1. 前置条件
-
 1. [Golang开发环境](https://golang.google.cn/)
 2. [etcd](https://etcd.io/)
 3. [PostgreSQL](https://www.postgresql.org/)
