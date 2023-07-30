@@ -96,9 +96,9 @@ username@computername student % sh output/bootstrap.sh 
 
 #### 1. 服务调用
 
-请求路径：/apigateway/:svcName/:methodName
+请求路径：`/apigateway/:svcName/:methodName`
 
-请求方法：POST
+请求方法：`POST`
 
 请求参数：取决希望调用的rpc服务的请求参数
 
@@ -258,7 +258,7 @@ HTTP_SERVER_ADDRESS/apigateway/teacherservice/Register
 6. 在idl有变化时，会生成新的客户端
 7. 为了将网关与idl管理平台独立开来，通过直接查找数据库的方式获取idl，而不是向idl管理平台发送请求
 
-![[./img/屏幕截图 2023-07-30 201826.png]]
+![](./img/pic1.png)
 
 ## 五、测试方案
 
@@ -270,7 +270,7 @@ HTTP_SERVER_ADDRESS/apigateway/teacherservice/Register
 
 在http-server/main_test.go中使用go自带的benchmark进行了并行测试，通过设置并发度，模拟多个客户端同时发送请求的情况
 
-![[./img/屏幕截图 2023-07-28 093958.png]]
+![](./img/pic2.png)
 
 - 总共用了 16 个 CPU 核心
 
@@ -284,7 +284,7 @@ HTTP_SERVER_ADDRESS/apigateway/teacherservice/Register
 
 优化后的测试数据
 
-![[./img/屏幕截图 2023-07-28 095821.png]]
+![](./img/pic3.png))
 
 - 总共用了 16 个 CPU 核心
 
