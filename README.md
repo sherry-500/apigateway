@@ -1,4 +1,4 @@
-# cloudwego Apigateway
+# Cloudwego Apigateway
 
 - [cloudwego Apigateway](#cloudwego-apigateway)
   - [一、部署步骤](#一部署步骤)
@@ -120,9 +120,9 @@ username@computername student % sh output/bootstrap.sh 
 
 #### 1. 服务调用
 
-请求路径：/apigateway/:svcName/:methodName
+请求路径：`/apigateway/:svcName/:methodName`
 
-请求方法：POST
+请求方法：`POST`
 
 请求参数：取决希望调用的rpc服务的请求参数
 
@@ -141,9 +141,9 @@ username@computername student % sh output/bootstrap.sh 
 
 #### 1. 增加idl
 
-请求路径：/idl-manage
+请求路径：`/idl-manage`
 
-请求方法：POST
+请求方法：`POST`
 
 请求参数：
 
@@ -168,9 +168,9 @@ YOUR_SERVER_ADDRESS/idl-manage
 
 #### 2. 删除idl
 
-请求路径：/idl-manage/:svcname
+请求路径：`/idl-manage/:svcname`
 
-请求方法：DELETE
+请求方法：`DELETE`
 
 请求参数：
 
@@ -191,9 +191,9 @@ YOUR_SERVER_ADDRESS/idl-manage/teacherservice
 
 #### 3. 更新idl
 
-请求路径：/idl-manage/:svcname
+请求路径：`/idl-manage/:svcname`
 
-请求方法：PATCH
+请求方法：`PATCH`
 
 请求参数：与增加idl的请求参数相同
 
@@ -210,9 +210,9 @@ YOUR_SERVER_ADDRESS/idl-manage/teacherservice
 
 #### 4. 根据服务名称获取idl
 
-请求路径：/idl-manage/:svcname
+请求路径：`/idl-manage/:svcname`
 
-请求方法：GET
+请求方法：`GET`
 
 请求参数：
 
@@ -227,9 +227,9 @@ YOUR_SERVER_ADDRESS/idl-manage/teacherservice
 
 #### 5. 列出idl
 
-请求路径：/idl-manage/?page_id=&page_size=
+请求路径：`/idl-manage/?page_id=&page_size=`
 
-请求方法：GET
+请求方法：`GET`
 
 请求参数：
 
@@ -248,9 +248,9 @@ curl -X GET
 
    svcName是teacher在服务注册中心注册时的服务名
 
-   如果选择type为PATH，则要确保“idl"字段中的地址相对于http-server/main.go是可以访问的
+   如果选择type为PATH，则要确保`idl`字段中的地址相对于`http-server/main.go`是可以访问的
 
-   如果选择type为Content，则”idl”字段应该是thrift文件的内容
+   如果选择type为Content，则`idl`字段应该是thrift文件的内容
 
 ```shell
 curl -X POST 
@@ -265,7 +265,7 @@ IDL_MANAGE_ADDRESS/idl-manage
 
    请求参数和返回参数均与直接向rpc服务发送请求时一致
 
-```
+```shell
 curl -X POST 
 -H "Content-Type:application/json" 
 -d '{"name":"sherry", "id":5}' 
@@ -282,7 +282,7 @@ HTTP_SERVER_ADDRESS/apigateway/teacherservice/Register
 6. 在idl有变化时，会生成新的客户端
 7. 为了将网关与idl管理平台独立开来，通过直接查找数据库的方式获取idl，而不是向idl管理平台发送请求
 
-![](img/屏幕截图 2023-07-30 201826.png)
+![](./img/pic1.png)
 
 ## 五、测试方案
 
@@ -294,13 +294,13 @@ HTTP_SERVER_ADDRESS/apigateway/teacherservice/Register
 
 在http-server/main_test.go中使用go自带的benchmark进行了并行测试，通过设置并发度，模拟多个客户端同时发送请求的情况
 
-![](img/屏幕截图 2023-07-28 093958.png)
+![](./img/pic2.png)
 
--总共用了 16 个 CPU 核心
+- 总共用了 16 个 CPU 核心
 
--执行次数：100 次
+- 执行次数：100 次
 
--每次耗时：28340315 ns
+- 每次耗时：28340315 ns
 
 ## 六、优化方案
 
@@ -308,10 +308,10 @@ HTTP_SERVER_ADDRESS/apigateway/teacherservice/Register
 
 优化后的测试数据
 
-![](img/屏幕截图 2023-07-28 095821.png)
+![](./img/pic3.png))
 
--总共用了 16 个 CPU 核心
+- 总共用了 16 个 CPU 核心
 
--执行次数：66 次
+- 执行次数：66 次
 
--每次耗时：18994985 ns
+- 每次耗时：18994985 ns
